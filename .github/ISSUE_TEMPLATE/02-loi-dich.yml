@@ -1,0 +1,30 @@
+name: Báo lỗi dịch
+description: Dịch sai nghĩa, sót ý, lỗi chính tả hoặc định dạng
+title: "[Lỗi dịch] "
+labels: ["translation-error"]
+body:
+  - type: input
+    id: location
+    attributes:
+      label: Vị trí
+      placeholder: "vd. translation/03-....md, mục 3.2, đoạn 2"
+    validations:
+      required: true
+  - type: textarea
+    id: original
+    attributes:
+      label: Câu gốc (tiếng Anh)
+  - type: textarea
+    id: current
+    attributes:
+      label: Bản dịch hiện tại
+  - type: textarea
+    id: proposed
+    attributes:
+      label: Đề xuất sửa
+    validations:
+      required: true
+  - type: textarea
+    id: reason
+    attributes:
+      label: Lý do / nguồn tham khảo

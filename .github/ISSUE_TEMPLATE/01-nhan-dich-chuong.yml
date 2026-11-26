@@ -1,0 +1,37 @@
+name: Nhận dịch chương
+description: Đăng ký dịch hoặc hiệu đính một chương để tránh trùng lặp
+title: "[Nhận dịch] Chương "
+labels: ["claim"]
+body:
+  - type: input
+    id: chapter
+    attributes:
+      label: Chương / mục
+      placeholder: "vd. Chương 3, mục 3.1–3.3"
+    validations:
+      required: true
+  - type: dropdown
+    id: role
+    attributes:
+      label: Vai trò
+      options: ["Dịch", "Hiệu đính"]
+    validations:
+      required: true
+  - type: input
+    id: credit
+    attributes:
+      label: Tên muốn được ghi công
+      description: Tên sẽ xuất hiện trong CITATION.cff, DOI Zenodo và mọi ấn bản (kể cả sách in)
+    validations:
+      required: true
+  - type: input
+    id: eta
+    attributes:
+      label: Dự kiến hoàn thành
+  - type: checkboxes
+    id: license
+    attributes:
+      label: Giấy phép
+      options:
+        - label: Tôi đã đọc CONTRIBUTING.md và đồng ý phần đóng góp phát hành theo CC BY 4.0, có thể được in và phát hành thương mại, có ghi công.
+          required: true

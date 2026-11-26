@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "Nếu sử dụng bản dịch này, vui lòng trích dẫn như sau. Khi trích dẫn nội dung chuyên môn, hãy trích dẫn bản gốc."
+type: dataset
+title: "{{TITLE_VI}} (Bản dịch tiếng Việt của {{SOURCE_ID}})"
+version: "0.1.0"
+date-released: "{{DATE}}"
+license: CC-BY-4.0
+repository-code: "https://github.com/JaxVN/{{REPO_NAME}}"
+languages:
+  - vi
+authors:
+  - family-names: "Hồng"
+    given-names: "Bảo Ngân"
+    alias: "JaxVN"
+    orcid: "https://orcid.org/0009-0000-9340-8520"
+# Người đóng góp: thêm vào danh sách authors bên trên (CFF chưa có vai trò "translator").
+references:
+  - type: report
+    title: "{{SOURCE_TITLE}}"
+    authors:
+      - name: "{{SOURCE_AUTHORS}}"
+    publisher:
+      name: "{{SOURCE_PUBLISHER}}"
+    year: {{SOURCE_YEAR}}
+    doi: "{{SOURCE_DOI}}"

@@ -1,0 +1,22 @@
+term_en,abbr,term_vi,status,note
+Zero Trust,ZT,Zero Trust,keep-en,Giữ nguyên tiếng Anh; có thể chú giải "không tin cậy mặc định" ở lần đầu
+Zero Trust Architecture,ZTA,kiến trúc Zero Trust,proposed,
+Policy Enforcement Point,PEP,điểm thực thi chính sách,proposed,
+Policy Decision Point,PDP,điểm quyết định chính sách,proposed,
+Policy Engine,PE,bộ máy chính sách,proposed,Cân nhắc "công cụ chính sách"
+Policy Administrator,PA,bộ quản trị chính sách,proposed,
+Policy Information Point,PIP,điểm thông tin chính sách,proposed,
+implicit trust zone,,vùng tin cậy ngầm định,proposed,
+least privilege,,đặc quyền tối thiểu,proposed,
+micro-segmentation,,vi phân đoạn,proposed,
+control plane,,mặt phẳng điều khiển,proposed,
+data plane,,mặt phẳng dữ liệu,proposed,
+subject,,chủ thể,proposed,"Người dùng, ứng dụng hoặc thiết bị yêu cầu truy cập"
+resource,,tài nguyên,proposed,
+asset,,tài sản,proposed,
+enterprise,,tổ chức,proposed,"Ngữ cảnh NIST: mọi loại tổ chức, không chỉ doanh nghiệp"
+"Identity, Credential, and Access Management",ICAM,"quản lý định danh, thông tin xác thực và truy cập",proposed,
+multi-factor authentication,MFA,xác thực đa yếu tố,accepted,
+Continuous Diagnostics and Mitigation,CDM,chẩn đoán và giảm thiểu liên tục,proposed,
+Security Information and Event Management,SIEM,SIEM,keep-en,
+threat intelligence,,thông tin tình báo về mối đe dọa,proposed,

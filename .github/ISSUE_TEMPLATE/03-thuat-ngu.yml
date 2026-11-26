@@ -1,0 +1,26 @@
+name: Đề xuất thuật ngữ
+description: Thêm mới hoặc đổi cách dịch một thuật ngữ trong glossary.csv
+title: "[Thuật ngữ] "
+labels: ["glossary"]
+body:
+  - type: input
+    id: term_en
+    attributes:
+      label: Thuật ngữ tiếng Anh (và viết tắt nếu có)
+    validations:
+      required: true
+  - type: input
+    id: current
+    attributes:
+      label: Cách dịch hiện tại (nếu có)
+  - type: input
+    id: proposed
+    attributes:
+      label: Cách dịch đề xuất
+    validations:
+      required: true
+  - type: textarea
+    id: reason
+    attributes:
+      label: Lý do và nguồn đối chiếu
+      description: vd. TCVN, văn bản pháp luật, tài liệu đã xuất bản dùng thuật ngữ này

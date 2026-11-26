@@ -1,0 +1,26 @@
+{
+  "title": "{{TITLE_VI}} (Bản dịch tiếng Việt của {{SOURCE_ID}})",
+  "description": "<p>Bản dịch tiếng Việt không chính thức của <em>{{SOURCE_TITLE}}</em> ({{SOURCE_PUBLISHER}}, {{SOURCE_ID}}, {{SOURCE_YEAR}}). Không được {{SOURCE_PUBLISHER}} xem xét hay chứng thực; bản tiếng Anh gốc là bản có giá trị khi có khác biệt.</p><p>Unofficial Vietnamese translation of <em>{{SOURCE_TITLE}}</em>. Not reviewed or endorsed by {{SOURCE_PUBLISHER}}; the original English version prevails.</p>",
+  "upload_type": "publication",
+  "publication_type": "report",
+  "language": "vie",
+  "license": "cc-by-4.0",
+  "access_right": "open",
+  "creators": [
+    {
+      "name": "Hồng, Bảo Ngân",
+      "orcid": "0009-0000-9340-8520"
+    }
+  ],
+  "contributors": [],
+  "keywords": ["Vietnamese translation", "bản dịch tiếng Việt", "cybersecurity", "an toàn thông tin", "{{SOURCE_ID}}"],
+  "related_identifiers": [
+    {
+      "identifier": "{{SOURCE_DOI}}",
+      "relation": "isDerivedFrom",
+      "resource_type": "publication-report",
+      "scheme": "doi"
+    }
+  ],
+  "notes": "Original work: {{SOURCE_AUTHORS}}. {{SOURCE_TITLE}}. {{SOURCE_PUBLISHER}}, {{SOURCE_ID}}, {{SOURCE_YEAR}}. https://doi.org/{{SOURCE_DOI}}"
+}

@@ -1,0 +1,10 @@
+---
+title: "{{TITLE_VI}}"
+subtitle: "Bản dịch tiếng Việt không chính thức của {{SOURCE_ID}}"
+author:
+  - "Hồng Bảo Ngân (JaxVN), dịch"
+lang: vi-VN
+rights: "Bản dịch © {{YEAR}} JaxVN, CC BY 4.0. Bản gốc: {{SOURCE_PUBLISHER}}."
+toc: true
+toc-title: "Mục lục"
+---
