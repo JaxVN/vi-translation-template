@@ -15,6 +15,15 @@
 
 3. **Xưng hô trung tính**, không dùng "bạn/chúng ta" trừ khi bản gốc dùng "you/we" một cách có chủ ý.
 
+## Phương pháp dịch theo loại nội dung
+
+| Loại nội dung | Phương pháp | Ví dụ |
+|---|---|---|
+| **Quy phạm** — yêu cầu, khuyến nghị, cảnh báo | Dịch **trung thành**, tìm cách diễn đạt **tương đương**; giữ đúng mức độ của động từ quy phạm (bảng trên) | “You should turn on MFA” → “Nên bật xác thực đa yếu tố (MFA)” |
+| **Cấu trúc** — heading, danh sách, bảng, bước làm | **Chuyển đổi** sang cấu trúc Markdown tương ứng, giữ thứ tự, số mục và anchor | `## Back up your data` → `## Sao lưu dữ liệu {#back-up-your-data}` |
+| **Thuật ngữ** | **Mượn từ** theo `glossary.csv` (dịch, hoặc giữ tiếng Anh nếu `keep-en`) | passkey → passkey; patch → bản vá |
+| **Bối cảnh nước ngoài** — cơ quan, luật, đường dây nóng, dịch vụ chỉ có ở nước gốc | Giữ nguyên trong thân bài; đối chiếu Việt Nam (nếu cần) đặt trong ghi chú **[ND]**, **không thích ứng** trong thân bài | “Call 1300 CYBER1” giữ nguyên; > **[ND]** Tại Việt Nam, có thể báo cáo sự cố tới … |
+
 ## Thuật ngữ
 - Lần xuất hiện đầu tiên trong mỗi chương: *thuật ngữ tiếng Việt (English term, viết tắt)*. Ví dụ: *điểm thực thi chính sách (policy enforcement point, PEP)*.
 - Từ lần thứ hai trở đi: dùng thuật ngữ tiếng Việt hoặc chữ viết tắt.

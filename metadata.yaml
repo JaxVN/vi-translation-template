@@ -7,4 +7,9 @@ lang: vi-VN
 rights: "Bản dịch © {{YEAR}} JaxVN, CC BY 4.0. Bản gốc: {{SOURCE_PUBLISHER}}."
 toc: true
 toc-title: "Mục lục"
+# Thông tin bản gốc — bundle.py đọc để sinh manifest.json cho blog
+source-title: "{{SOURCE_TITLE}}"
+source-publisher: "{{SOURCE_PUBLISHER}}"
+source-url: "{{SOURCE_LINK}}"
+source-license: "{{SOURCE_LICENSE}}"
 ---

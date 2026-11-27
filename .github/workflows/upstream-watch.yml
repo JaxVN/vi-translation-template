@@ -1,0 +1,104 @@
+name: Upstream watch
+
+# Hằng tuần kiểm tra bản gốc trực tuyến (upstream.yaml). Có thay đổi → mở PR cập nhật source/en/.
+# Tải lỗi → mở Issue (hoặc comment vào Issue đang mở) có label upstream-fetch-failed.
+# upstream.yaml không có chương nào → không làm gì.
+on:
+  schedule:
+    - cron: "37 10 * * 1"   # Thứ Hai 10:37 UTC = 17:37 giờ VN = 02:37/03:37 giờ PT
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: upstream-watch
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Cài pyyaml
+        run: python3 -m pip install --quiet pyyaml
+      - name: Đếm chương trong upstream.yaml
+        id: cfg
+        run: |
+          n=$(python3 -c "import yaml; print(len((yaml.safe_load(open('upstream.yaml')) or {}).get('chapters') or []))")
+          echo "chapters=$n" >> "$GITHUB_OUTPUT"
+          echo "upstream.yaml: $n chương"
+      - name: Cài pandoc
+        if: steps.cfg.outputs.chapters != '0'
+        run: sudo apt-get update && sudo apt-get install -y pandoc
+      - name: Tải bản gốc
+        id: fetch
+        if: steps.cfg.outputs.chapters != '0'
+        run: |
+          set +e
+          python3 scripts/upstream_fetch.py --report build/upstream-report.json
+          rc=$?
+          set -e
+          echo "rc=$rc" >> "$GITHUB_OUTPUT"
+          if [ "$rc" -ne 0 ] && [ "$rc" -ne 2 ]; then exit "$rc"; fi
+          python3 - <<'PY'
+          import json, os, subprocess, datetime
+          r = json.load(open("build/upstream-report.json"))
+          out = open(os.environ["GITHUB_OUTPUT"], "a")
+          changed, errors = r["changed"], r["errors"]
+          out.write(f"changed={len(changed)}\nerrors={len(errors)}\n")
+          out.write(f"date={datetime.date.today().isoformat()}\n")
+          nums = ", ".join(c["chapter"] for c in changed)
+          out.write(f"title=Bản gốc cập nhật: chương {nums}\n")
+          stat = subprocess.run(["git", "diff", "--stat", "--", "source/en"], capture_output=True, text=True).stdout
+          new = subprocess.run(["git", "ls-files", "--others", "--exclude-standard", "source/en"],
+                               capture_output=True, text=True).stdout
+          lines = ["Watcher phát hiện bản gốc đã thay đổi. Kiểm tra diff, rồi cập nhật bản dịch tương ứng;",
+                   "các chương dịch liên quan sẽ được `scripts/check.py` đánh dấu **OUTDATED** cho tới khi chạy",
+                   "`python3 scripts/hash.py stamp-vi translation/NN-slug.md`.", "", "## Chương thay đổi", ""]
+          lines += [f"- **{c['chapter']}** `{c['file']}`{' (mới)' if c.get('new_file') else ''} — {c['url']}" for c in changed]
+          lines += ["", "## Diff stat", "", "```", stat.strip() or "(chỉ có file mới)", "```"]
+          if new.strip():
+              lines += ["", "File mới:", "", "```", new.strip(), "```"]
+          if errors:
+              lines += ["", f"⚠ {len(errors)} chương tải lỗi — xem Issue có label `upstream-fetch-failed`."]
+          open("build/pr-body.md", "w").write("\n".join(lines) + "\n")
+          elines = ["Watcher không tải được các trang bản gốc sau (file trong `source/en/` **không** bị thay đổi):", ""]
+          elines += [f"- [ ] **{e['chapter']}** `{e['slug']}` — {e['url']} — `{e['error']}`" for e in errors]
+          elines += ["", "Lấy thủ công: mở trang bằng trình duyệt thật, sao chép phần nội dung, đổi sang Markdown,",
+                     "dán vào `source/en/NN-slug.md` (giữ front matter, cập nhật `retrieved`), rồi chạy",
+                     "`python3 scripts/hash.py stamp source/en/NN-slug.md` và mở PR. Xem TEMPLATE_SETUP.md, mục watcher.",
+                     "", f"Lần chạy: {os.environ['GITHUB_SERVER_URL']}/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']}"]
+          open("build/issue-body.md", "w").write("\n".join(elines) + "\n")
+          PY
+      - name: Mở PR cập nhật bản gốc
+        if: steps.fetch.outputs.changed != '' && steps.fetch.outputs.changed != '0'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: upstream/${{ steps.fetch.outputs.date }}
+          add-paths: source/en/**
+          commit-message: "${{ steps.fetch.outputs.title }}"
+          title: "${{ steps.fetch.outputs.title }}"
+          body-path: build/pr-body.md
+          labels: upstream-update
+          delete-branch: true
+      - name: Báo lỗi tải qua Issue
+        if: steps.fetch.outputs.errors != '' && steps.fetch.outputs.errors != '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create upstream-fetch-failed --color B60205 \
+            --description "Watcher không tải được bản gốc" 2>/dev/null || true
+          num=$(gh issue list --label upstream-fetch-failed --state open --limit 1 --json number --jq '.[0].number // empty')
+          if [ -n "$num" ]; then
+            gh issue comment "$num" --body-file build/issue-body.md
+            echo "Đã comment vào Issue #$num"
+          else
+            gh issue create --title "Watcher: không tải được bản gốc (${{ steps.fetch.outputs.date }})" \
+              --label upstream-fetch-failed --body-file build/issue-body.md
+          fi

@@ -22,4 +22,4 @@ references:
     publisher:
       name: "{{SOURCE_PUBLISHER}}"
     year: {{SOURCE_YEAR}}
-    doi: "{{SOURCE_DOI}}"
+    {{SOURCE_CFF_IDENT}}
