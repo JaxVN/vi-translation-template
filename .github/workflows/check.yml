@@ -13,9 +13,17 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Kiểm tra placeholder, glossary, front matter
+      - name: Kiểm tra placeholder, glossary, front matter, source_hash, status
         run: python3 scripts/check.py
-      - name: Cài pandoc
-        run: sudo apt-get update && sudo apt-get install -y pandoc
+      - name: Cài pandoc và pyyaml
+        run: |
+          sudo apt-get update && sudo apt-get install -y pandoc
+          python3 -m pip install --quiet pyyaml
       - name: Build thử
         run: bash scripts/build.sh
+      - name: Đóng gói bundle cho blog (không upload)
+        run: |
+          python3 scripts/bundle.py
+          python3 -c "import json, zipfile; json.loads(zipfile.ZipFile('build/site-bundle.zip').read('manifest.json')); print('manifest.json hợp lệ')"
+      - name: Unit test (watcher, hash, init → check/build/bundle)
+        run: python3 -m unittest discover -s tests -v

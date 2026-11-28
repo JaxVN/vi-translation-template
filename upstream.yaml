@@ -1,0 +1,6 @@
+# Cấu hình watcher bản gốc (scripts/upstream_fetch.py, workflow upstream-watch).
+# Danh sách chapters rỗng → workflow không làm gì.
+source_name: ""
+index_url: ""
+content_selector: "article"   # CSS selector phần nội dung (tag, .class, #id, tag.class; nhiều selector cách nhau bằng dấu phẩy)
+chapters: []                   # - {chapter: "01", slug: "...", url: "..."}

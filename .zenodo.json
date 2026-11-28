@@ -16,11 +16,11 @@
   "keywords": ["Vietnamese translation", "bản dịch tiếng Việt", "cybersecurity", "an toàn thông tin", "{{SOURCE_ID}}"],
   "related_identifiers": [
     {
-      "identifier": "{{SOURCE_DOI}}",
+      "identifier": "{{SOURCE_IDENTIFIER}}",
       "relation": "isDerivedFrom",
       "resource_type": "publication-report",
-      "scheme": "doi"
+      "scheme": "{{SOURCE_IDENTIFIER_SCHEME}}"
     }
   ],
-  "notes": "Original work: {{SOURCE_AUTHORS}}. {{SOURCE_TITLE}}. {{SOURCE_PUBLISHER}}, {{SOURCE_ID}}, {{SOURCE_YEAR}}. https://doi.org/{{SOURCE_DOI}}"
+  "notes": "Original work: {{SOURCE_AUTHORS}}. {{SOURCE_TITLE}}. {{SOURCE_PUBLISHER}}, {{SOURCE_ID}}, {{SOURCE_YEAR}}. {{SOURCE_LINK}}"
 }

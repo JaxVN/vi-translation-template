@@ -1,50 +1,41 @@
-# {{TITLE_VI}}
+# vi-translation-template
 
-**Bản dịch tiếng Việt không chính thức của:** *{{SOURCE_TITLE}}*
-**Unofficial Vietnamese translation of:** *{{SOURCE_TITLE}}*
+**Template cho các bản dịch tiếng Việt không chính thức của tài liệu an toàn thông tin.**
+**A GitHub template for unofficial Vietnamese translations of cybersecurity documents.**
 
-| | |
+Mỗi bản dịch là một repo riêng tạo từ template này. Repo bản dịch là nguồn chuẩn duy nhất: bản DOCX/HTML/EPUB, DOI Zenodo và nội dung trên blog [jaxvn.io.vn](https://jaxvn.io.vn) đều sinh từ release của repo.
+Each translation lives in its own repository created from this template. The translation repo is the single source of truth: DOCX/HTML/EPUB, the Zenodo DOI and the blog content are all generated from its releases.
+
+## Có gì trong template / What's inside
+
+| Đường dẫn / Path | Nội dung / Purpose |
 |---|---|
-| Bản gốc / Original | {{SOURCE_PUBLISHER}}, {{SOURCE_ID}} ({{SOURCE_YEAR}}) |
-| Tác giả bản gốc / Original authors | {{SOURCE_AUTHORS}} |
-| DOI bản gốc / Original DOI | [{{SOURCE_DOI}}](https://doi.org/{{SOURCE_DOI}}) |
-| Người dịch / Translator | Hồng Bảo Ngân (JaxVN) · ORCID [0009-0000-9340-8520](https://orcid.org/0009-0000-9340-8520) |
-| DOI bản dịch / Translation DOI | _cấp sau release đầu tiên trên Zenodo_ |
-| Giấy phép bản dịch / License | [CC BY 4.0](LICENSE) — xem [NOTICE.md](NOTICE.md) |
-| Trạng thái / Status | 🚧 Đang dịch (draft) |
+| `source/en/` | Bản gốc tiếng Anh, mỗi chương một file kèm `source_hash` / Original English chapters with a content hash |
+| `translation/` | Bản dịch, cùng tên file với `source/en/`; `status`: `draft` · `machine-reviewed` · `reviewed` |
+| `templates/front-matter.md` | Trang bản quyền, build tự chèn đầu tài liệu / Copyright page, prepended at build time |
+| `glossary.csv`, `docs/style-guide.md` | Thuật ngữ và quy ước dịch / Terminology and style guide |
+| `scripts/init.py` | Thay placeholder khi tạo repo mới / Fills in placeholders for a new repo |
+| `scripts/check.py` | Kiểm tra repo; cảnh báo chương **OUTDATED** / Repo checks, flags outdated chapters |
+| `scripts/hash.py` | Ghi `source_hash` cho EN, đồng bộ sang VI / Stamps content hashes |
+| `scripts/build.sh` | Xuất DOCX/HTML/EPUB (chỉ chương khác `draft`) / Builds outputs (non-draft chapters only) |
+| `scripts/bundle.py` | Sinh `build/site-bundle.zip` + `manifest.json` cho blog / Site bundle for the blog |
+| `scripts/upstream_fetch.py`, `upstream.yaml` | Theo dõi bản gốc trực tuyến, mở PR khi có thay đổi / Watches the upstream web pages |
+| `.github/workflows/` | `check` (PR), `release` (đính kèm file + bundle), `upstream-watch` (hằng tuần) |
+| `README.template.md`, `CHANGELOG.template.md` | Thành `README.md`, `CHANGELOG.md` của repo bản dịch sau `init.py` |
 
-> ⚠️ **Miễn trừ:** Đây là bản dịch không chính thức, không được {{SOURCE_PUBLISHER}} xem xét hay chứng thực. Khi có khác biệt về nghĩa, **bản tiếng Anh gốc là bản có giá trị**.
->
-> ⚠️ **Disclaimer:** This is an unofficial translation, not reviewed or endorsed by {{SOURCE_PUBLISHER}}. In case of any discrepancy, **the original English version prevails**.
+## Cách dùng / How to use
 
-## Đọc bản dịch
+1. **Use this template → Create a new repository**, đặt tên `<nguon>-<ma-tai-lieu>-vi` (vd. `asd-smb-handbook-vi`).
+2. Clone về và chạy `python3 scripts/init.py ...` (ví dụ đầy đủ trong [TEMPLATE_SETUP.md](TEMPLATE_SETUP.md)).
+3. `python3 scripts/check.py && ./scripts/build.sh`, rồi commit.
 
-- Đọc trực tuyến: các chương trong thư mục [`translation/`](translation/)
-- Tải về (DOCX / HTML / EPUB): mục **Releases** của repo này
+Hướng dẫn chi tiết (quyền dịch, cấu hình GitHub, Zenodo, watcher): **[TEMPLATE_SETUP.md](TEMPLATE_SETUP.md)**.
+Quy trình dịch và trạng thái chương: [CONTRIBUTING.md](CONTRIBUTING.md) · Lịch sử template: [CHANGELOG.md](CHANGELOG.md).
 
-## Tiến độ
+## Giấy phép / License
 
-| Chương | Tiêu đề | Người dịch | Trạng thái |
-|---|---|---|---|
-| 00 | Bản quyền và miễn trừ | JaxVN | ✅ |
-| 01 | {{CH01_TITLE}} | — | ⬜ Chưa nhận |
-
-Trạng thái: ⬜ chưa nhận · ✍️ đang dịch · 🔍 đang hiệu đính · ✅ hoàn tất
-
-## Tham gia dịch và góp ý
-
-Mọi góp ý đều được ghi nhận. Có ba cách tham gia, xem chi tiết trong [CONTRIBUTING.md](CONTRIBUTING.md):
-
-1. **Không dùng GitHub:** tải file DOCX trong Releases, bật Track Changes hoặc comment, rồi gửi lại.
-2. **Biết GitHub cơ bản:** mở file `.md` trong `translation/`, bấm ✏️ để sửa, GitHub tự tạo Pull Request.
-3. **Rành Git:** fork, rồi gửi Pull Request.
-
-Báo lỗi dịch hoặc đề xuất thuật ngữ: mở **Issue** theo mẫu có sẵn.
-
-## Trích dẫn
-
-Xem [CITATION.cff](CITATION.cff) hoặc nút **Cite this repository** ở thanh bên phải. Khi trích dẫn nội dung chuyên môn, vui lòng trích dẫn **bản gốc**.
+Mã và tài liệu của template: [CC BY 4.0](LICENSE). Bản quyền bản gốc thuộc bên phát hành; xem `NOTICE.md` trong từng repo bản dịch.
 
 ---
 
-Thuộc bộ bản dịch tài liệu an toàn thông tin của [JaxVN](https://github.com/JaxVN).
+Duy trì bởi / Maintained by [JaxVN](https://github.com/JaxVN).

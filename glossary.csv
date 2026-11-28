@@ -20,3 +20,7 @@ multi-factor authentication,MFA,xác thực đa yếu tố,accepted,
 Continuous Diagnostics and Mitigation,CDM,chẩn đoán và giảm thiểu liên tục,proposed,
 Security Information and Event Management,SIEM,SIEM,keep-en,
 threat intelligence,,thông tin tình báo về mối đe dọa,proposed,
+passkey,,passkey,keep-en,"Giữ nguyên tiếng Anh; có thể chú giải ""khoá truy cập không mật khẩu"" ở lần đầu"
+password manager,,trình quản lý mật khẩu,proposed,
+patch,,bản vá,proposed,"Động từ ""patch"": vá (lỗ hổng), cài bản vá"
+incident response plan,,kế hoạch ứng phó sự cố,proposed,

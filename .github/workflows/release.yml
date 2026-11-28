@@ -1,6 +1,6 @@
 name: Release assets
 
-# Khi publish một GitHub Release: build DOCX/HTML/EPUB và đính kèm vào release.
+# Khi publish một GitHub Release: build DOCX/HTML/EPUB + site-bundle.zip (cho blog) và đính kèm vào release.
 # Zenodo (nếu đã bật tích hợp cho repo) tự lưu snapshot và cấp DOI phiên bản.
 on:
   release:
@@ -20,7 +20,11 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y pandoc
       - name: Build
         run: bash scripts/build.sh
+      - name: Bundle cho blog
+        run: python3 scripts/bundle.py --version "${{ github.event.release.tag_name }}"
       - name: Đính kèm vào release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release upload "${{ github.event.release.tag_name }}" build/*.docx build/*.html build/*.epub --clobber
+        run: >
+          gh release upload "${{ github.event.release.tag_name }}"
+          build/*.docx build/*.html build/*.epub build/site-bundle.zip --clobber
