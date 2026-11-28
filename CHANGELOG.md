@@ -16,7 +16,9 @@ Lịch sử của **template** `JaxVN/vi-translation-template`. Repo bản dịc
 - Watcher bản gốc: `upstream.yaml`, `scripts/upstream_fetch.py` (stdlib `html.parser` + pandoc; `pyyaml` để đọc cấu hình),
   workflow `upstream-watch` hằng tuần mở PR khi bản gốc đổi, mở/comment Issue `upstream-fetch-failed` khi tải lỗi.
 - `init.py`: preset `--rights acsc`; `--source-url`; `--source-doi` được để trống (dùng URL thay DOI trong README, NOTICE,
-  CITATION.cff, `.zenodo.json`); `--source-license`; ghép `README.template.md`/`CHANGELOG.template.md` vào file chính.
+  CITATION.cff, `.zenodo.json`); `--source-license`; ghép `README.template.md`/`CHANGELOG.template.md` vào file chính;
+  bật *Allow GitHub Actions to create and approve pull requests* qua `gh api` (giữ quyền mặc định read; `--skip-github-settings`
+  để bỏ qua; không đủ quyền thì in hướng dẫn bật thủ công — setting này không kế thừa từ template).
 - `tests/` (unittest + fixture HTML): watcher, hash/OUTDATED, luồng init → check → build → bundle.
 - Glossary: `passkey`, `password manager`, `patch`, `incident response plan`.
 - Tài liệu: quy trình 3 trạng thái trong CONTRIBUTING.md, bảng phương pháp dịch trong style guide, ví dụ ACSC và watcher trong TEMPLATE_SETUP.md.

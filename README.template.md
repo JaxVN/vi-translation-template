@@ -32,6 +32,21 @@ Trạng thái (ghi trong front matter từng chương, trường `status`):
 `draft` bản nháp, chưa phát hành · `machine-reviewed` AI dịch nháp, người dịch đã soát nhanh (được đăng kèm banner, chưa tính là hoàn tất) · `reviewed` đã hiệu đính đầy đủ.
 Chương bị đánh dấu **OUTDATED** khi bản gốc đã đổi sau lần dịch gần nhất (`scripts/check.py` báo).
 
+## Cấu hình GitHub Actions (người duy trì)
+
+Workflow **Upstream watch** cần quyền mở Pull Request. Setting này **không** được kế thừa khi tạo repo từ template;
+`scripts/init.py` tự bật bằng `gh` nếu có quyền admin, nếu không thì bật thủ công:
+
+- **Settings → Actions → General → Workflow permissions:** giữ *Read repository contents and packages permissions*
+  (quyền mặc định của `GITHUB_TOKEN` là read-only) và tick *Allow GitHub Actions to create and approve pull requests*.
+- Hoặc chạy:
+
+```bash
+gh api -X PUT repos/JaxVN/{{REPO_NAME}}/actions/permissions/workflow -f default_workflow_permissions=read -F can_approve_pull_request_reviews=true
+```
+
+Các workflow tự khai báo quyền ghi cần thiết trong khối `permissions:` của chúng.
+
 ## Tham gia dịch và góp ý
 
 Mọi góp ý đều được ghi nhận. Có ba cách tham gia, xem chi tiết trong [CONTRIBUTING.md](CONTRIBUTING.md):

@@ -88,7 +88,8 @@ chapters:
 ## 5. Cấu hình repo trên GitHub
 - [ ] **Settings → Branches → Add rule** cho `main`: Require a pull request + Require review from Code Owners + Require status checks (`check`).
 - [ ] **Settings → General → Features**: bật Issues, tắt Wiki nếu không dùng.
-- [ ] **Settings → Actions → General → Workflow permissions**: bật *Allow GitHub Actions to create and approve pull requests* (cho watcher).
+- [ ] **Settings → Actions → General → Workflow permissions**: giữ quyền mặc định *read*, bật *Allow GitHub Actions to create and approve pull requests* (cho watcher).
+  Setting này không kế thừa từ template; `init.py` tự bật qua `gh api` nếu có quyền (bỏ qua bằng `--skip-github-settings`), không được thì in hướng dẫn.
 - [ ] Thêm **Description** và **Topics**: `vietnamese-translation`, `cybersecurity`…
 
 ## 6. Bật DOI trên Zenodo và đồng bộ blog

@@ -20,6 +20,9 @@ Phải có ít nhất một trong hai.
 import argparse
 import datetime
 import pathlib
+import re
+import shutil
+import subprocess
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -61,6 +64,50 @@ def chapter_files() -> list[str]:
     return out
 
 
+MANUAL_ACTIONS_HELP = """\
+  Bật thủ công: Settings → Actions → General → Workflow permissions
+    • giữ "Read repository contents and packages permissions" (quyền mặc định read-only)
+    • tick "Allow GitHub Actions to create and approve pull requests"
+  hoặc chạy (cần gh đã đăng nhập, quyền admin repo):
+    gh api -X PUT repos/{repo}/actions/permissions/workflow \\
+      -f default_workflow_permissions=read -F can_approve_pull_request_reviews=true"""
+
+
+def github_repo(explicit: str) -> str:
+    if explicit:
+        return explicit
+    try:
+        url = subprocess.run(["git", "remote", "get-url", "origin"], cwd=ROOT, capture_output=True,
+                             text=True, check=True).stdout.strip()
+    except (OSError, subprocess.CalledProcessError):
+        return ""
+    m = re.search(r"github\.com[:/]([^/]+/[^/]+?)(?:\.git)?/?$", url)
+    return m.group(1) if m else ""
+
+
+def enable_actions_pr_permission(repo: str) -> None:
+    """Bật 'Allow GitHub Actions to create and approve pull requests' (watcher cần để mở PR),
+    giữ quyền mặc định của GITHUB_TOKEN là read. Setting này không được kế thừa từ template."""
+    print("\n— Cấu hình GitHub Actions —")
+    if not repo:
+        print("⚠ Không xác định được repo GitHub (không có remote origin); bỏ qua.")
+        print(MANUAL_ACTIONS_HELP.format(repo="OWNER/REPO"))
+        return
+    if not shutil.which("gh"):
+        print("⚠ Không có gh CLI; bỏ qua.")
+        print(MANUAL_ACTIONS_HELP.format(repo=repo))
+        return
+    r = subprocess.run(["gh", "api", "-X", "PUT", f"repos/{repo}/actions/permissions/workflow",
+                        "-f", "default_workflow_permissions=read", "-F", "can_approve_pull_request_reviews=true"],
+                       capture_output=True, text=True)
+    if r.returncode == 0:
+        print(f"✔ {repo}: Actions được tạo/duyệt PR; quyền mặc định GITHUB_TOKEN = read")
+    else:
+        msg = (r.stderr or r.stdout).strip().splitlines()
+        print(f"⚠ Không bật được ({msg[-1] if msg else 'lỗi không rõ'}); bỏ qua.")
+        print(MANUAL_ACTIONS_HELP.format(repo=repo))
+
+
 def main() -> int:
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--repo-name", required=True)
@@ -77,6 +124,10 @@ def main() -> int:
     p.add_argument("--source-license", default=None,
                    help="Giấy phép bản gốc (mặc định theo preset --rights, vd. acsc → CC-BY-4.0)")
     p.add_argument("--ch01-title", default="Giới thiệu")
+    p.add_argument("--github-repo", default="",
+                   help="OWNER/REPO để bật quyền Actions tạo PR (mặc định đọc từ git remote origin)")
+    p.add_argument("--skip-github-settings", action="store_true",
+                   help="không gọi GitHub API để cấu hình quyền Actions")
     a = p.parse_args()
 
     doi, url = a.source_doi.strip(), a.source_url.strip()
@@ -141,6 +192,12 @@ def main() -> int:
     marker = ROOT / ".is-template"
     marker.unlink()
     print("✔ đã xoá .is-template (bật kiểm tra placeholder trong CI)")
+
+    if a.skip_github_settings:
+        print("\n— Bỏ qua cấu hình GitHub Actions (--skip-github-settings) —")
+        print(MANUAL_ACTIONS_HELP.format(repo=github_repo(a.github_repo) or "OWNER/REPO"))
+    else:
+        enable_actions_pr_permission(github_repo(a.github_repo))
 
     print("\nXong. Chạy: python3 scripts/hash.py stamp source/en/*.md && python3 scripts/check.py && ./scripts/build.sh")
     return 0

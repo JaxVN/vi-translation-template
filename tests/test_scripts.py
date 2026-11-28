@@ -94,7 +94,7 @@ class RepoFlowTest(unittest.TestCase):
                  "--source-title", "Small Business Cyber Security Handbook", "--source-id", "ACSC SMB Handbook",
                  "--source-publisher", "Australian Signals Directorate (ASD)",
                  "--source-authors", "Australian Cyber Security Centre", "--source-year", "2025",
-                 "--rights", "acsc", "--source-doi", "",
+                 "--rights", "acsc", "--source-doi", "", "--skip-github-settings",
                  "--source-url", "https://www.cyber.gov.au/publication/small-business-cyber-security-handbook"],
                 cls.repo)
         assert r.returncode == 0, r.stdout + r.stderr
